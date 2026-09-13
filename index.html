@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Client (v1.0 - 2002)</title>
+    <style>
+        /* Couleurs officielles de Steam 2002 (Vert kaki / Gris-Vert) */
+        :root {
+            --steam-bg: #4a5242;
+            --steam-window: #5a6453;
+            --steam-dark: #383d32;
+            --steam-light: #6d7764;
+            --steam-text: #d1d5cd;
+            --steam-accent: #c4ca22; /* Le jaune/vert des alertes ou sélections */
+        }
+
+        body {
+            background-color: #2b2e26;
+            color: var(--steam-text);
+            font-family: "Lucida Console", Monaco, monospace, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Fenêtre principale du Client Steam */
+        .steam-client {
+            background-color: var(--steam-window);
+            width: 650px;
+            border: 2px solid #7c8773;
+            border-bottom: 2px solid var(--steam-dark);
+            border-right: 2px solid var(--steam-dark);
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+            padding: 4px;
+        }
+
+        /* Barre supérieure (Top Bar) */
+        .steam-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, #5a6453, #3c4236);
+            padding: 8px 12px;
+            border: 1px solid var(--steam-dark);
+        }
+
+        .steam-logo {
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 1px 1px var(--steam-dark);
+        }
+
+        .steam-logo span {
+            color: #a0a69a;
+            font-size: 10px;
+            vertical-align: super;
+        }
+
+        /* Système d'onglets rétro (Tabs) */
+        .steam-tabs {
+            display: flex;
+            margin-top: 5px;
+            background-color: var(--steam-dark);
+            padding: 4px 4px 0 4px;
+            border: 1px solid #282b23;
+        }
+
+        .tab {
+            padding: 6px 14px;
+            background: linear-gradient(to bottom, #4d5446, #383d32);
+            border: 1px solid #555c4e;
+            border-bottom: none;
+            margin-right: 3px;
+            color: #9da496;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab.active {
+            background: linear-gradient(to bottom, #6a7562, var(--steam-window));
+            color: #ffffff;
+            border: 1px solid #7e8a75;
+            border-bottom: 1px solid var(--steam-window);
+            margin-bottom: -1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Contenu de la fenêtre */
+        .steam-content {
+            background-color: var(--steam-bg);
+            border: 1px solid var(--steam-dark);
+            border-top: none;
+            padding: 15px;
+        }
+
+        .steam-banner {
+            background-color: #3d4336;
+            border: 1px solid var(--steam-dark);
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #b1b7ad;
+        }
+
+        /* Liste de jeux / liens style Steam 2002 */
+        .games-list {
+            background-color: var(--steam-dark);
+            border: 1px solid #2b2f26;
+            border-radius: 2px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #464c3e;
+        }
+
+        .game-item:last-child {
+            border-bottom: none;
+        }
+
+        .game-item:hover {
+            background-color: #43493c;
+        }
+
+        /* Liens et boutons */
+        .game-title {
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Petite icône carrée "Steam" devant les jeux */
+        .game-title::before {
+            content: "■";
+            color: var(--steam-accent);
+            margin-right: 10px;
+            font-size: 10px;
+        }
+
+        .game-status {
+            color: #8c9485;
+            font-size: 11px;
+        }
+
+        .steam-btn {
+            background: linear-gradient(to bottom, #66705d, #444b3e);
+            border: 1px solid #7c8873;
+            border-right: 1px solid var(--steam-dark);
+            border-bottom: 1px solid var(--steam-dark);
+            color: #ffffff;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .steam-btn:active {
+            border: 1px solid var(--steam-dark);
+            border-right: 1px solid #7c8873;
+            border-bottom: 1px solid #7c8873;
+            padding: 6px 14px 4px 16px;
+        }
+
+        /* Pied de page du client */
+        .steam-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 5px;
+            font-size: 10px;
+            color: #788171;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fenêtre principale Steam -->
+    <div class="steam-client">
+        
+        <!-- Barre de titre -->
+        <div class="steam-topbar">
+            <div class="steam-logo">STEAM <span>BETA v1.0</span></div>
+            <div style="color: #8c9485;">[ X ]</div>
+        </div>
+
+        <!-- Menu Onglets -->
+        <div class="steam-tabs">
+            <div class="tab active">My Games</div>
+            <div class="tab">Friends</div>
+            <div class="tab">Server</div>
+            <div class="tab">Settings</div>
+        </div>
+
+        <!-- Contenu central -->
+        <div class="steam-content">
+            
+            <div class="steam-banner">
+                VALVE SYSTEMS - WELCOME TO STEAM BENCHMARK 2002
+            </div>
+
+            <!-- Remplacer les adresses href="#" par vos propres réseaux/liens -->
+            <ul class="games-list">
+                <li class="game-item">
+                    <a href="https://twitch.tv" target="_blank" class="game-title">Mon Twitch / Live</a>
+                    <span class="game-status">100% - Ready</span>
+                    <a href="https://twitch.tv" target="_blank" class="steam-btn">Launch</a>
+                </li>
+                <li class="game-item">
+                    <a href="https://youtube.com" target="_blank" class="game-title">Chaîne YouTube</a>
+                    <span class="game-status">98% - Updating</span>
+                    <a href="https://youtube.com" target="_blank" class="steam-btn">Launch</a>
+                </li>
+                <li class="game-item">
+                    <a href="https://instagram.com" target="_blank" class="game-title">Mon Instagram</a>
+                    <span class="game-status">100% - Ready</span>
+                    <a href="https://instagram.com" target="_blank" class="steam-btn">Launch</a>
+                </li>
+                <li class="game-item">
+                    <a href="https://discord.gg" target="_blank" class="game-title">Serveur Discord</a>
+                    <span class="game-status">100% - Ready</span>
+                    <a href="https://discord.gg" target="_blank" class="steam-btn">Launch</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <!-- Pied de page (Barre de statut) -->
+        <div class="steam-footer">
+            <div>4 Items loaded</div>
+            <div>Connection: Online (100 Kbps)</div>
+        </div>
+    </div>
+
+</body>
+</html>
